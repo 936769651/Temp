@@ -71,7 +71,7 @@ void order(struct numHead * head)
 		}
 	}
 
-	for(x = 0;x < i;x++)	//将pointList中的指针收尾相接，形成新的链表
+	for(x = 0;x < have;x++)	//将pointList中的指针收尾相接，形成新的链表
 	{
 		if(x == 0)
 		{
@@ -80,10 +80,12 @@ void order(struct numHead * head)
 		}
 		pointList[x - 1]->next = pointList[x];
 	}
+	pointList[x-1]->next = NULL;
 	printf("排序结果: ");
-	for(x = 0;x < have;x++)
-		printf("%d,",pointList[x]->num);
-	putchar('\n');
+	print_end(head);
+	//for(x = 0;x < have;x++)
+	//	printf("%d,",pointList[x]->num);
+//	putchar('\n');
 }
 void delete(struct numHead * head)
 {

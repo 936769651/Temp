@@ -22,7 +22,7 @@ int main()
 	struct numBody * previous = NULL; //指向节点的指针
 	for(create = 0;create < 21;create++)
 	{
-		create_num = rand()%6;
+		create_num = rand()%100;
 		point = (struct numBody *)malloc(sizeof(struct numBody)); //生成指向一块内存的指针
 		//为该节点赋值
 		point->num = create_num;

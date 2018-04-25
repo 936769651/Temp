@@ -12,6 +12,7 @@ struct numBody{
 };
 void print_end(struct numHead * head);
 void delete(struct numHead * head);
+void order(struct numHead * head);
 int main()
 {
 	srand((unsigned)time(NULL));
@@ -20,7 +21,7 @@ int main()
 	struct numHead head = {0,NULL};	//初始化头结点
 	struct numBody * point = NULL; //指向节点的指针
 	struct numBody * previous = NULL; //指向节点的指针
-	for(create = 0;create < 21;create++)
+	for(create = 0;create < 20;create++)
 	{
 		create_num = rand()%100;
 		point = (struct numBody *)malloc(sizeof(struct numBody)); //生成指向一块内存的指针
@@ -37,7 +38,52 @@ int main()
 	}
 	print_end(&head);
 	delete(&head);
+	printf("After delete:\n");
+	print_end(&head);
+	order(&head);
 	return 0;
+}
+void order(struct numHead * head)
+{
+	struct numBody * pointList[30] = {NULL};
+	struct numBody * pointTemp = head->next;
+	int i = 0;
+	int x,y;
+	int have = head->have;
+	while(1)
+	{
+		pointList[i] = pointTemp;
+		pointTemp = pointTemp->next;
+		if(NULL == pointTemp)
+			break;
+		i++;
+	}
+	for(x = 0;x < have;x++)	//通过遍历对pointList指针进行排序
+	{
+		for(y = x+1;y < have;y++)
+		{
+			if(pointList[x]->num < pointList[y]->num)
+			{
+				pointTemp = pointList[x];
+				pointList[x] = pointList[y];
+				pointList[y] = pointTemp;
+			}
+		}
+	}
+
+	for(x = 0;x < i;i++)	//将pointList中的指针收尾相接，形成新的链表
+	{
+		if(x == 0)
+		{
+			head->next = pointList[0];
+			continue;
+		}
+		pointList[i - 1]->next = pointList[i];
+	}
+	printf("排序结果: ");
+	for(x = 0;x < have;x++)
+		printf("%d,",pointList[x]->num);
+	putchar('\n');
 }
 void delete(struct numHead * head)
 {
@@ -73,22 +119,19 @@ void delete(struct numHead * head)
 			break;
 	}
 	previous->next = NULL;
-	printf("After delete:\n");
-	print_end(head);
 }
 
 void print_end(struct numHead * head)
 {
 	int have = head->have;
-	printf("%d\n",have);
 	int i = 0;
 	struct numBody * point = head->next;
 	while(1)
 	{
-		printf("No.%d = %d\n",i,point->num);
+		printf("%d,",point->num);
 		point = point->next;
-		if(point->next == NULL)
+		if(NULL == point)
 			break;
-		i++;
 	}
+	putchar('\n');
 }
